@@ -16,6 +16,7 @@
       buildInputs = [
         pkgs.beam.packages.erlang.elixir
         pkgs.beam.packages.erlang.elixir-ls
+        pkgs.beam.packages.erlang.erlang
       ];
     };
 
