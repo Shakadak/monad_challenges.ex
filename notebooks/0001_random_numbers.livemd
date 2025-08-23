@@ -15,7 +15,10 @@ https://mightybyte.github.io/monad-challenges/pages/ex1-1.html
 
 ```elixir
 defmodule RNG1_1 do
-  import MCPrelude
+  import MCPrelude, only: [
+    mkSeed: 1,
+    rand: 1,
+  ]
 
   @doc """
       iex> Enum.product(#{__MODULE__}.fiveRands())
@@ -33,7 +36,11 @@ https://mightybyte.github.io/monad-challenges/pages/ex1-2.html
 
 ```elixir
 defmodule RCG1_2 do
-  import MCPrelude
+  import MCPrelude, only: [
+    mkSeed: 1,
+    rand: 1,
+    toLetter: 1,
+  ]
 
   @spec randLetter(MCPrelude.seed()) :: {char(), MCPrelude.seed()}
   def randLetter(seed) do
@@ -57,11 +64,156 @@ https://mightybyte.github.io/monad-challenges/pages/ex1-3.html
 
 ```elixir
 defmodule MG1_3 do
+  import MCPrelude, only: [
+    rand: 1,
+  ]
   # TODO fix this type synonym
   @type gen(val) :: [val]
   # Use it as a thought exercise, Elixir is not capable to
   # represent an actual use of `gen(type)` as a spec.
 
-  @spec randLetter(MCPrelude.seed()) :: {char(), MCPrelude.seed()}
+  # define the arguments yourself
+  def generalA do
+    # ???
+  end
+
+  @spec randEven(MCPrelude.seed()) :: {integer(), MCPrelude.seed()}
+  def randEven(seed) do
+    # generalA ?
+  end
+
+  @spec randOdd(MCPrelude.seed()) :: {integer(), MCPrelude.seed()}
+  def randOdd(seed) do
+    # generalA ?
+  end
+
+  @spec randTen(MCPrelude.seed()) :: {integer(), MCPrelude.seed()}
+  def randTen(seed) do
+    # generalA ?
+  end
+end
+```
+
+```elixir
+ExUnit.start(autorun: false)
+
+defmodule MG1_3Test do
+  use ExUnit.Case, async: true
+
+  test "it works" do
+    {even, _} = MG1_3.randEven(MCPrelude.mkSeed(1))
+    {odd, _} = MG1_3.randOdd(MCPrelude.mkSeed(1))
+    {ten, _} = MG1_3.randTen(MCPrelude.mkSeed(1))
+    assert even * odd * ten == 189908109902700
+  end
+end
+
+ExUnit.run()
+```
+
+## Generalizing Random Pairs
+
+https://mightybyte.github.io/monad-challenges/pages/ex1-4.html
+
+```elixir
+defmodule GRP1_4 do
+  import MCPrelude, only: [
+    rand: 1,
+  ]
+
+  import RCG1_2, only: [
+    randLetter: 1,
+  ]
+
+  @doc """
+      iex> elem(#{__MODULE__}.randPair(MCPrelude.mkSeed(1)), 0)
+      {?l, 282475249}
+  """
+  @spec randPair(MCPrelude.seed()) :: {{char(), integer()}, MCPrelude.seed()}
+  def randPair(seed) do
+  end
+
+  @type gen(type) :: (MCPrelude.seed() -> {type, MCPrelude.seed()})
+
+  @spec generalizedPair(gen(a), gen(b)) :: gen({a, b}) when a: var, b: var
+  def generalizedPair(left, right) do
+  end
+
+  @spec generalizedPair(
+    (MCPrelude.seed() -> {a, MCPrelude.seed()}),
+    (MCPrelude.seed() -> {b, MCPrelude.seed()}),
+    MCPrelude.seed()
+  ) :: {{a, b}, MCPrelude.seed()}
+    when a: var, b: var
+  def generalizedPair(left, right, seed) do
+  end
+
+  @doc """
+      iex> elem(#{__MODULE__}.randPair_(MCPrelude.mkSeed(1)), 0)
+      {?l, 282475249}
+  """
+  @spec randPair_(MCPrelude.seed()) :: {{char(), integer()}, MCPrelude.seed()}
+  def randPair_(seed) do
+  end
+end
+```
+
+## Generalizing Pairs Even More
+
+```elixir
+defmodule GPEM1_4 do
+  def generalB(in1, in2, cons, seed) do
+  end
+
+  def generalPair2(left, right, seed) do
+  end
+
+  @doc """
+      iex> elem(#{__MODULE__}.randPair(MCPrelude.mkSeed(1)), 0)
+      {?l, 282475249}
+  """
+  def randPair(seed) do
+    generalPair2(&RCG1_2.randLetter/1, &MCPrelude.rand/1, seed)
+  end
+end
+```
+
+## Generalizing Lists of Generators
+
+https://mightybyte.github.io/monad-challenges/pages/ex1-5.html
+
+```elixir
+defmodule GLG1_5 do
+  @type gen(type) :: (MCPrelude.seed() -> {type, MCPrelude.seed()})
+  
+  @spec repRandom([gen(a)], MCPrelude.seed()) :: {[a], MCPrelude.seed()}
+  def repRandom(gs, seed) do
+  end
+end
+```
+
+```elixir
+ExUnit.start(autorun: false)
+
+defmodule GLG1_5Test do
+  use ExUnit.Case, async: true
+
+  test "it works" do
+    seed = MCPrelude.mkSeed(1)
+    {cs, _seed} = GLG1_5.repRandom(List.duplicate(&RCG1_2.randLetter/1, 3), seed)
+    assert to_string(cs) == RCG1_2.randString3()
+  end
+end
+
+ExUnit.run()
+```
+
+## Threading the random number state
+
+https://mightybyte.github.io/monad-challenges/pages/ex1-6.html
+
+```elixir
+defmodule TRNS do
+  
 end
 ```
