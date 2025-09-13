@@ -67,12 +67,20 @@ defmodule MG1_3 do
   import MCPrelude, only: [
     rand: 1,
   ]
+
+  # @spec rand(MCPrelude.seed()) :: {integer(), MCPrelude.seed()}
+  # @spec randLetter(MCPrelude.seed()) :: {char(), MCPrelude.seed()}
+  # ====>
+  # @spec rand :: gen(integer())
+  # @spec randLetter :: gen(char())
+
   # TODO fix this type synonym
   @type gen(val) :: [val]
   # Use it as a thought exercise, Elixir is not capable to
   # represent an actual use of `gen(type)` as a spec.
+  # Well, it can if you do partial currying yourself.
 
-  # define the arguments yourself
+  # define the arguments and spec yourself
   def generalA do
     # ???
   end
@@ -111,6 +119,68 @@ end
 ExUnit.run()
 ```
 
+<!-- livebook:{"branch_parent_index":2} -->
+
+## More Generators : Curried
+
+https://mightybyte.github.io/monad-challenges/pages/ex1-3.html
+
+```elixir
+defmodule MG1_3.Curried do
+  import MCPrelude.Curried, only: [
+    rand: 0,
+  ]
+
+  # @spec rand(MCPrelude.seed()) :: {integer(), MCPrelude.seed()}
+  # @spec randLetter(MCPrelude.seed()) :: {char(), MCPrelude.seed()}
+  # ====>
+  # @spec rand :: gen(integer())
+  # @spec randLetter :: gen(char())
+
+  # TODO fix this type synonym
+  @type gen(val) :: [val]
+  # Use it as a thought exercise.
+  # Consider partially currying the functions yourself.
+
+  # define the arguments and spec yourself
+  def generalA do
+    # ???
+  end
+
+  @spec randEven() :: gen(integer())
+  def randEven do
+    # generalA ?
+  end
+
+  @spec randOdd() :: gen(integer())
+  def randOdd do
+    # generalA ?
+  end
+
+  @spec randTen() :: gen(integer())
+  def randTen do
+    # generalA ?
+  end
+end
+```
+
+```elixir
+ExUnit.start(autorun: false)
+
+defmodule MG1_3.CurriedTest do
+  use ExUnit.Case, async: true
+
+  test "it works" do
+    {even, _} = MG1_3.Curried.randEven.(MCPrelude.mkSeed(1))
+    {odd, _} = MG1_3.Curried.randOdd.(MCPrelude.mkSeed(1))
+    {ten, _} = MG1_3.Curried.randTen.(MCPrelude.mkSeed(1))
+    assert even * odd * ten == 189908109902700
+  end
+end
+
+ExUnit.run()
+```
+
 ## Generalizing Random Pairs
 
 https://mightybyte.github.io/monad-challenges/pages/ex1-4.html
@@ -133,19 +203,13 @@ defmodule GRP1_4 do
   def randPair(seed) do
   end
 
-  @type gen(type) :: (MCPrelude.seed() -> {type, MCPrelude.seed()})
-
-  @spec generalizedPair(gen(a), gen(b)) :: gen({a, b}) when a: var, b: var
-  def generalizedPair(left, right) do
-  end
-
-  @spec generalizedPair(
+  @spec generalPair(
     (MCPrelude.seed() -> {a, MCPrelude.seed()}),
     (MCPrelude.seed() -> {b, MCPrelude.seed()}),
     MCPrelude.seed()
   ) :: {{a, b}, MCPrelude.seed()}
     when a: var, b: var
-  def generalizedPair(left, right, seed) do
+  def generalPair(left, right, seed) do
   end
 
   @doc """
@@ -158,10 +222,67 @@ defmodule GRP1_4 do
 end
 ```
 
+<!-- livebook:{"branch_parent_index":4} -->
+
+## Generalizing Random Pairs : Curried
+
+https://mightybyte.github.io/monad-challenges/pages/ex1-4.html
+
+```elixir
+defmodule GRP1_4.Curried do
+  import MCPrelude, only: [
+    rand: 1,
+  ]
+
+  import RCG1_2, only: [
+    randLetter: 1,
+  ]
+
+  # TODO fix this type synonym
+  @type gen(val) :: [val]
+
+  # @type gen(type) :: (MCPrelude.seed() -> {type, MCPrelude.seed()})
+
+  @spec randLetter :: gen(char())
+  def randLetter do
+    &randLetter/1
+  end
+
+  @doc """
+      iex> elem(#{__MODULE__}.randPair.(MCPrelude.mkSeed(1)), 0)
+      {?l, 282475249}
+  """
+  @spec randPair :: gen({char(), integer()})
+  def randPair do
+    fn seed ->
+    end
+  end
+
+  @spec generalPair(gen(a), gen(b)) :: gen({a, b}) when a: var, b: var
+  def generalPair(left, right) do
+    fn seed ->
+    end
+  end
+
+  @doc """
+      iex> elem(#{__MODULE__}.randPair_.(MCPrelude.mkSeed(1)), 0)
+      {?l, 282475249}
+  """
+  @spec randPair_ :: gen({char(), integer()})
+  def randPair_ do
+  end
+end
+```
+
 ## Generalizing Pairs Even More
 
 ```elixir
 defmodule GPEM1_4 do
+  # define the arguments and spec yourself
+  def generalB do
+    # ????
+  end
+
   def generalB(in1, in2, cons, seed) do
   end
 
@@ -178,15 +299,41 @@ defmodule GPEM1_4 do
 end
 ```
 
+<!-- livebook:{"branch_parent_index":6} -->
+
+## Generalizing Pairs Even More : Curried
+
+```elixir
+defmodule GPEM1_4.Curried do
+  # define the arguments and spec yourself
+  def generalB do
+    # ????
+  end
+
+  def generalPair2(left, right) do
+    # generalB ?
+  end
+
+  @doc """
+      iex> elem(#{__MODULE__}.randPair.(MCPrelude.mkSeed(1)), 0)
+      {?l, 282475249}
+  """
+  def randPair do
+  end
+end
+```
+
 ## Generalizing Lists of Generators
 
 https://mightybyte.github.io/monad-challenges/pages/ex1-5.html
 
 ```elixir
 defmodule GLG1_5 do
-  @type gen(type) :: (MCPrelude.seed() -> {type, MCPrelude.seed()})
+  # TODO fix this type synonym
+  @type gen(val) :: [val]
   
   @spec repRandom([gen(a)], MCPrelude.seed()) :: {[a], MCPrelude.seed()}
+    when a: var
   def repRandom(gs, seed) do
   end
 end
@@ -208,12 +355,61 @@ end
 ExUnit.run()
 ```
 
+<!-- livebook:{"branch_parent_index":8} -->
+
+## Generalizing Lists of Generators : Curried
+
+https://mightybyte.github.io/monad-challenges/pages/ex1-5.html
+
+```elixir
+defmodule GLG1_5.Curried do
+
+  # TODO fix this type synonym
+  @type gen(val) :: [val]
+
+  @spec repRandom([gen(a)]) :: gen([a])
+    when a: var
+  def repRandom(gs) do
+    fn seed ->
+    end
+  end
+end
+```
+
+```elixir
+ExUnit.start(autorun: false)
+
+defmodule GLG1_5.CurriedTest do
+  use ExUnit.Case, async: true
+
+  test "it works" do
+    seed = MCPrelude.mkSeed(1)
+    gens = List.duplicate(GRP1_4.Curried.randLetter(), 3)
+    {cs, _seed} = GLG1_5.Curried.repRandom(gens).(seed)
+    assert to_string(cs) == RCG1_2.randString3()
+  end
+end
+
+ExUnit.run()
+```
+
 ## Threading the random number state
 
 https://mightybyte.github.io/monad-challenges/pages/ex1-6.html
 
 ```elixir
-defmodule TRNS do
+defmodule TRNS1_6 do
+  # TODO fix this type synonym
+  @type gen(val) :: [val]
+
+  @spec genTwo(gen(a), (a -> gen(b)), MCPrelude.seed()) :: {b, MCPrelude.seed()}
   
+  @spec genTwoCurried(gen(input), (input -> gen(output))) :: gen(output)
+    when input: var, output: var
+
+  # TODO : define args and spec, do a non-curried and a partially curried version
+  def mkGen do
+    # ???
+  end
 end
 ```
