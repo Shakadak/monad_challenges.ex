@@ -1,0 +1,70 @@
+# Set 2: Failing Computations
+
+## The Maybe Type
+
+https://mightybyte.github.io/monad-challenges/pages/ex2-1.html
+
+```elixir
+defmodule Maybe do
+  defstruct []
+
+  defimpl Inspect do
+    @spec inspect(Maybe.t(a), Inspect.Opts.t) :: String.t
+     when a: any # a is expected to implement the Inspect protocol
+    def inspect(%@for{} = _maybe, _opts) do
+      raise UndefinedFunctionError
+    end
+  end
+
+  def eq(%__MODULE__{}, %__MODULE__{}) do
+
+  end
+end
+```
+
+## Build a library of things that can fail
+
+https://mightybyte.github.io/monad-challenges/pages/ex2-2.html
+
+```elixir
+defmodule MaybeLib do
+  @spec headMay([a]) :: Maybe.t(a)
+    when a: var
+  def headMay(_) do
+
+  end
+
+  @spec tailMay([a]) :: Maybe.t(a)
+    when a: var
+  def tailMay(_) do
+
+  end
+
+  @spec lookupMay(a, [{a, b}]) :: Maybe.t(b)
+    when a: var, b: var
+  def lookupMay(_, _) do
+
+  end
+
+  @spec divMay(float, float) :: Maybe.t(float)
+  def divMay(_, _) do
+
+  end
+
+  @spec maximumMay([a]) :: Maybe.t(a)
+    when a: var
+  def maximumMay(_) do
+
+  end
+
+  @spec minimumMay([a]) :: Maybe.t(a)
+    when a: var
+  def minimumMay(_) do
+
+  end
+end
+```
+
+## Chains of Failing Computations
+
+https://mightybyte.github.io/monad-challenges/pages/ex2-3.html
