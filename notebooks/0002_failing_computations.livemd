@@ -4,9 +4,15 @@
 
 https://mightybyte.github.io/monad-challenges/pages/ex2-1.html
 
+This part can be cheated a bit for the data type declaration, because Elixir can't really produce an equivalent.
+
 ```elixir
 defmodule Maybe do
   defstruct []
+
+  defmacro just
+
+  defmacro nothing
 
   defimpl Inspect do
     @spec inspect(Maybe.t(a), Inspect.Opts.t) :: String.t
@@ -68,3 +74,40 @@ end
 ## Chains of Failing Computations
 
 https://mightybyte.github.io/monad-challenges/pages/ex2-3.html
+
+```elixir
+defmodule CFC do
+  @spec queryGreek(MCPrelude.greekData, binary) :: Maybe.t(float)
+  def queryGreek(greek_data, str) do
+
+  end
+end
+```
+
+```elixir
+ExUnit.start(autorun: false)
+
+defmodule GLG1_5.CurriedTest do
+  use ExUnit.Case, async: true
+
+  test "it works" do
+    import MCPrelude
+    import CFC
+    import Maybe
+
+    assert queryGreek(greekDataA(), "alpha") == just(2.0)
+    assert queryGreek(greekDataA(), "beta") == nothing()
+    assert queryGreek(greekDataA(), "gamma") == just(3.3333333333333335)
+    assert queryGreek(greekDataA(), "delta") == nothing()
+    assert queryGreek(greekDataA(), "zeta") == nothing()
+
+    assert queryGreek(greekDataA(), "rho") == nothing()
+    assert queryGreek(greekDataA(), "phi") == just(0.24528301886792453)
+    assert queryGreek(greekDataA(), "chi") == just(9.095238095238095)
+    assert queryGreek(greekDataA(), "psi") == nothing()
+    assert queryGreek(greekDataA(), "omega") == just(24.0)
+  end
+end
+
+ExUnit.run()
+```
