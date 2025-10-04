@@ -148,13 +148,71 @@ defmodule GLG1_5.CurriedTest do
     assert queryGreek2(greekDataA(), "delta") == nothing()
     assert queryGreek2(greekDataA(), "zeta") == nothing()
 
-    assert queryGreek2(greekDataA(), "rho") == nothing()
-    assert queryGreek2(greekDataA(), "phi") == just(0.24528301886792453)
-    assert queryGreek2(greekDataA(), "chi") == just(9.095238095238095)
-    assert queryGreek2(greekDataA(), "psi") == nothing()
-    assert queryGreek2(greekDataA(), "omega") == just(24.0)
+    assert queryGreek2(greekDataB(), "rho") == nothing()
+    assert queryGreek2(greekDataB(), "phi") == just(0.24528301886792453)
+    assert queryGreek2(greekDataB(), "chi") == just(9.095238095238095)
+    assert queryGreek2(greekDataB(), "psi") == nothing()
+    assert queryGreek2(greekDataB(), "omega") == just(24.0)
   end
 end
 
 ExUnit.run()
+```
+
+## Chaining variations
+
+https://mightybyte.github.io/monad-challenges/pages/ex2-5.html
+
+```elixir
+defmodule CV do
+  @spec addSalaries([{binary, integer}], binary, binary) :: Maybe.t(integer)
+  def addSalaries
+
+  def yLink
+
+  @spec mkMaybe(a) :: Maybe.t(a)
+    when a: var
+  def mkMaybe
+end
+```
+
+```elixir
+ExUnit.start(autorun: false)
+
+defmodule GLG1_5.CurriedTest do
+  use ExUnit.Case, async: true
+
+  test "it works" do
+    import MCPrelude
+    import CV
+    import Maybe
+
+    assert queryGreek2(salaries(), "alice", "bob") == just(195000)
+    assert queryGreek2(salaries(), "carol", "dave") == nothing()
+  end
+end
+
+ExUnit.run()
+```
+
+## Tailprod
+
+https://mightybyte.github.io/monad-challenges/pages/ex2-6.html
+
+```elixir
+defmodule Tailprod do
+  @spec tailProd([number]) :: Maybe.t(number)
+  def tailProd
+  
+  @spec tailSum([number]) :: Maybe.t(number)
+  def tailSum
+
+  def transMaybe
+
+  def tailMax
+
+  def tailMin
+
+  def combine
+end
 ```
