@@ -1,0 +1,129 @@
+# Set 4: Common Abstraction
+
+```elixir
+app = :monad_challenges
+Mix.install(
+  [
+    {app, path: Path.join(__DIR__, ".."), env: :dev}
+  ]
+)
+```
+
+## Generalizing State and Maybe
+
+https://mightybyte.github.io/monad-challenges/pages/ex4-1.html
+
+NOTE: Elixir cannot represent this part :l
+
+```elixir
+
+```
+
+## A Missed Generalization
+
+```elixir
+defmodule MissedGeneralization do
+  # Copy your `randLetter` and `randString3` in this module
+
+  def repRandom(_gens) do
+    
+  end
+end
+```
+
+```elixir
+ExUnit.start(autorun: false)
+
+defmodule MissedGeneralizationTest do
+  use ExUnit.Case, async: true
+
+  test "it works" do
+    seed = MCPrelude.mkSeed(1)
+    gens = List.duplicate(MissedGeneralization.randLetter(), 3)
+    {cs, _seed} = MissedGeneralization.repRandom(gens).(seed)
+    assert to_string(cs) == MissedGeneralization.randString3()
+  end
+end
+
+ExUnit.run()
+```
+
+## Formalizing the Pattern
+
+https://mightybyte.github.io/monad-challenges/pages/ex4-3.html
+
+```elixir
+defprotocol Monad do
+  # Protocols need at least one arguments for each function.
+  # Replace `_?` with whatever you need.
+  
+  def bind(_?)
+
+  # You can look for the `Collectable` protocol if you're feeling stuck.
+  def return(_?)
+end
+```
+
+## Creating Instances
+
+https://mightybyte.github.io/monad-challenges/pages/ex4-4.html
+
+```elixir
+# Copy the Maybe module here.
+```
+
+```elixir
+# Make `Gen` a struct, you can use some macros to help pattern matching.
+```
+
+```elixir
+defimpl Monad, for: List do
+  
+end
+```
+
+```elixir
+defimpl Monad, for: Maybe do
+  
+end
+```
+
+```elixir
+defimpl Monad, fo: Gen do
+  
+end
+```
+
+## Revisiting Other Generic Functions
+
+https://mightybyte.github.io/monad-challenges/pages/ex4-5.html
+
+```elixir
+defmodule RevisitingOtherGenericFunctions do
+  # Again, think about how `Collectable` is handled in `Enum`.
+
+  def sequence do
+    
+  end
+
+  def liftM2 do
+    
+  end
+
+  def chain do
+    
+  end
+
+  def liftM3 do
+    
+  end
+
+  def ap do
+    
+  end
+end
+```
+
+## Using the abstraction
+
+https://mightybyte.github.io/monad-challenges/pages/ex4-6.html

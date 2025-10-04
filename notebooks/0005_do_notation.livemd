@@ -1,0 +1,73 @@
+# Set 5: Do Notation
+
+```elixir
+app = :monad_challenges
+Mix.install(
+  [
+    {app, path: Path.join(__DIR__, ".."), env: :dev}
+  ]
+)
+```
+
+## Do Notation
+
+https://mightybyte.github.io/monad-challenges/pages/ex5-1.html
+
+A `do` block with `MCPrelude` will look like:
+
+<!-- livebook:{"force_markdown":true} -->
+
+```elixir
+import MCPrelude
+
+def rule1 do
+  m do
+    foo <- calcFoo()
+    bar(foo)
+  end
+end
+```
+
+It will be expanded to:
+
+<!-- livebook:{"force_markdown":true} -->
+
+```elixir
+def rule1 do
+  calcFoo()
+  |> Monad.bind(fn foo -> bar(foo) end)
+end
+```
+
+```elixir
+# Copy your data declarations and monad protocol and implementations
+```
+
+## Do Notation – operators
+
+https://mightybyte.github.io/monad-challenges/pages/ex5-2.html
+
+Ignore the need for `fail`, we defined the protocol ourselves.
+
+Don't redefine the `Monad` protocol.  
+You could define an operator `~>>` like so though:
+
+<!-- livebook:{"force_markdown":true} -->
+
+```elixir
+def m ~>> f, do: Monad.bind(m, f)
+```
+
+But it's not that useful due to Elixir's use of `m |> Monad.bind(f)`
+
+## Do Notation – Set 1
+
+https://mightybyte.github.io/monad-challenges/pages/ex5-3.html
+
+## Do Notation – Set 2
+
+https://mightybyte.github.io/monad-challenges/pages/ex5-4.html
+
+## Do Notation – Set 3
+
+https://mightybyte.github.io/monad-challenges/pages/ex5-5.html
