@@ -1,5 +1,14 @@
 # Set 2: Failing Computations
 
+```elixir
+app = :monad_challenges
+Mix.install(
+  [
+    {app, path: Path.join(__DIR__, ".."), env: :dev}
+  ]
+)
+```
+
 ## The Maybe Type
 
 https://mightybyte.github.io/monad-challenges/pages/ex2-1.html
@@ -10,9 +19,13 @@ This part can be cheated a bit for the data type declaration, because Elixir can
 defmodule Maybe do
   defstruct []
 
-  defmacro just
+  defmacro just(_) do
+    
+  end
 
-  defmacro nothing
+  defmacro nothing do
+    
+  end
 
   defimpl Inspect do
     @spec inspect(Maybe.t(a), Inspect.Opts.t) :: String.t
@@ -78,7 +91,7 @@ https://mightybyte.github.io/monad-challenges/pages/ex2-3.html
 ```elixir
 defmodule CFC do
   @spec queryGreek(MCPrelude.greekData, binary) :: Maybe.t(float)
-  def queryGreek(greek_data, str) do
+  def queryGreek(_greek_data, _str) do
 
   end
 end
@@ -120,14 +133,20 @@ https://mightybyte.github.io/monad-challenges/pages/ex2-4.html
 defmodule GCF do
   @spec chain((a -> Maybe.t(b)), Maybe.t(a)) :: Maybe.t(b)
     when a: var, b: var
-  def chain
+  def chain(_, _) do
+    
+  end
 
   @spec link(Maybe.t(a), (a -> Maybe.t(b))) :: Maybe.t(b)
     when a: var, b: var
-  def link
+  def link(_, _) do
+    
+  end
 
   @spec queryGreek2(MCPrelude.greekData, binary) :: Maybe.t(float)
-  def queryGreek2
+  def queryGreek2(_, _) do
+    
+  end
 end
 ```
 
@@ -166,13 +185,19 @@ https://mightybyte.github.io/monad-challenges/pages/ex2-5.html
 ```elixir
 defmodule CV do
   @spec addSalaries([{binary, integer}], binary, binary) :: Maybe.t(integer)
-  def addSalaries
+  def addSalaries(_salaries, _first, _second) do
+    
+  end
 
-  def yLink
+  def yLink do
+    
+  end
 
   @spec mkMaybe(a) :: Maybe.t(a)
     when a: var
-  def mkMaybe
+  def mkMaybe(_) do
+    
+  end
 end
 ```
 
@@ -187,8 +212,8 @@ defmodule CVTest do
     import CV
     import Maybe
 
-    assert queryGreek2(salaries(), "alice", "bob") == just(195000)
-    assert queryGreek2(salaries(), "carol", "dave") == nothing()
+    assert addSalaries(salaries(), "alice", "bob") == just(195000)
+    assert addSalaries(salaries(), "carol", "dave") == nothing()
   end
 end
 
@@ -202,17 +227,29 @@ https://mightybyte.github.io/monad-challenges/pages/ex2-6.html
 ```elixir
 defmodule Tailprod do
   @spec tailProd([number]) :: Maybe.t(number)
-  def tailProd
+  def tailProd(_) do
+    
+  end
   
   @spec tailSum([number]) :: Maybe.t(number)
-  def tailSum
+  def tailSum(_) do
+    
+  end
 
-  def transMaybe
+  def transMaybe do
+    
+  end
 
-  def tailMax
+  def tailMax do
+    
+  end
 
-  def tailMin
+  def tailMin do
+    
+  end
 
-  def combine
+  def combine do
+    
+  end
 end
 ```
