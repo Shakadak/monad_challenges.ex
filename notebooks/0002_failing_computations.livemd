@@ -87,7 +87,7 @@ end
 ```elixir
 ExUnit.start(autorun: false)
 
-defmodule GLG1_5.CurriedTest do
+defmodule CFCTest do
   use ExUnit.Case, async: true
 
   test "it works" do
@@ -134,7 +134,7 @@ end
 ```elixir
 ExUnit.start(autorun: false)
 
-defmodule GLG1_5.CurriedTest do
+defmodule GCFTest do
   use ExUnit.Case, async: true
 
   test "it works" do
@@ -179,7 +179,7 @@ end
 ```elixir
 ExUnit.start(autorun: false)
 
-defmodule GLG1_5.CurriedTest do
+defmodule CVTest do
   use ExUnit.Case, async: true
 
   test "it works" do
