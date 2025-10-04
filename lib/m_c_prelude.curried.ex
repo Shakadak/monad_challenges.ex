@@ -2,9 +2,11 @@ defmodule MCPrelude.Curried do
   @type seed :: {:Seed, integer()}
   defmacro seed(seed), do: {:Seed, seed}
 
+  @spec mkSeed(integer) :: seed
   def mkSeed(seed), do: seed(seed)
 
   @m 0x7FFFFFFF
+  @type rand :: ((seed) -> {integer, seed})
   def rand do
     fn seed(s) ->
       s2 = rem(s * 16807, @m)
@@ -17,7 +19,51 @@ defmodule MCPrelude.Curried do
       iex> <<?a>>
       "a"
   """
+  @spec toLetter(integer) :: char
   def toLetter(char) do
     ?a + rem(char, 26)
   end
+
+  @type greekData :: [{binary, [integer]}]
+
+  @spec greekDataA :: greekData
+  def greekDataA do
+    [
+      {"alpha", [5, 10]},
+      {"beta", [0, 8]},
+      {"gamma", [18, 47, 60]},
+      {"delta", [42]}
+    ]
+  end
+
+  @spec greekDataB :: greekData
+  def greekDataB do
+    [
+      {"phi", [53, 13]},
+      {"chi", [21, 8, 191]},
+      {"psi", []},
+      {"omega", [6, 82, 144]}
+    ]
+  end
+
+  @spec salaries :: [{binary, integer}]
+  def salaries do
+    [
+      {"alice", 105000},
+      {"bob", 90000},
+      {"carol", 85000}
+    ]
+  end
+
+  @spec firstNames :: [binary]
+  def firstNames, do: ["alice", "bob", "carol", "dave"]
+
+  @spec lastNames :: [binary]
+  def lastNames, do: ["doe", "jones", "smith"]
+
+  @spec cardRanks :: [integer]
+  def cardRanks, do: [2, 3, 4, 5]
+
+  @spec cardSuits :: [binary]
+  def cardSuits, do: ["H", "D", "C", "S"]
 end
