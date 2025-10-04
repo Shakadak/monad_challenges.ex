@@ -111,3 +111,50 @@ end
 
 ExUnit.run()
 ```
+
+## Generalizing chains of failures
+
+https://mightybyte.github.io/monad-challenges/pages/ex2-4.html
+
+```elixir
+defmodule GCF do
+  @spec chain((a -> Maybe.t(b)), Maybe.t(a)) :: Maybe.t(b)
+    when a: var, b: var
+  def chain
+
+  @spec link(Maybe.t(a), (a -> Maybe.t(b))) :: Maybe.t(b)
+    when a: var, b: var
+  def link
+
+  @spec queryGreek2(MCPrelude.greekData, binary) :: Maybe.t(float)
+  def queryGreek2
+end
+```
+
+```elixir
+ExUnit.start(autorun: false)
+
+defmodule GLG1_5.CurriedTest do
+  use ExUnit.Case, async: true
+
+  test "it works" do
+    import MCPrelude
+    import GCF
+    import Maybe
+
+    assert queryGreek2(greekDataA(), "alpha") == just(2.0)
+    assert queryGreek2(greekDataA(), "beta") == nothing()
+    assert queryGreek2(greekDataA(), "gamma") == just(3.3333333333333335)
+    assert queryGreek2(greekDataA(), "delta") == nothing()
+    assert queryGreek2(greekDataA(), "zeta") == nothing()
+
+    assert queryGreek2(greekDataA(), "rho") == nothing()
+    assert queryGreek2(greekDataA(), "phi") == just(0.24528301886792453)
+    assert queryGreek2(greekDataA(), "chi") == just(9.095238095238095)
+    assert queryGreek2(greekDataA(), "psi") == nothing()
+    assert queryGreek2(greekDataA(), "omega") == just(24.0)
+  end
+end
+
+ExUnit.run()
+```
