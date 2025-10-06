@@ -1,4 +1,4 @@
-# Random Numbers
+# Set 1: Random Numbers
 
 ```elixir
 app = :monad_challenges
