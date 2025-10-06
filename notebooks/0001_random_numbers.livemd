@@ -403,13 +403,53 @@ defmodule TRNS1_6 do
   @type gen(val) :: [val]
 
   @spec genTwo(gen(a), (a -> gen(b)), MCPrelude.seed()) :: {b, MCPrelude.seed()}
+    when a: var, b: var
+  def genTwo(gen, f, seed) do
+  end
   
   @spec genTwoCurried(gen(input), (input -> gen(output))) :: gen(output)
     when input: var, output: var
+  def genTwoCurried(gen, f) do
+  end
 
   # TODO : define args and spec, do a non-curried and a partially curried version
   def mkGen do
     # ???
   end
 end
+```
+
+```elixir
+ExUnit.start(autorun: false)
+
+defmodule TRNS1_6Test do
+  use ExUnit.Case, async: true
+
+  test "it works" do
+    seed = MCPrelude.mkSeed(1)
+    {_, seed1} = MCPrelude.rand(seed)
+    {_, seed2} = MCPrelude.rand(seed1)
+
+    assert TRNS1_6.mkGen(1, seed) == {1, seed1}
+    assert TRNS1_6.mkGen(2, seed1) == {2, seed2}
+
+    gen = TRNS1_6.mkGen(1)
+    assert gen.(seed) == {1, seed1}
+    assert gen.(seed1) == {1, seed2}
+  end
+
+  test "genTwo" do
+    seed = MCPrelude.mkSeed(1)
+    {_, seed1} = MCPrelude.rand(seed)
+    {_, seed2} = MCPrelude.rand(seed1)
+
+    assert TRNS1_6.genTwo(&TRNS1_6.mkGen(1, &1), fn n ->
+      &TRNS1_6.mkGen(n + 1, &1)
+      end, seed) == {2, seed2}
+
+    assert TRNS1_6.genTwoCurried(TRNS1_6.mkGen(1), &TRNS1_6.mkGen(&1 + 1)).(seed) == {2, seed2}
+  end
+end
+
+ExUnit.run()
 ```
