@@ -202,3 +202,11 @@ defmodule CombinationsOfMoreThings do
   end
 end
 ```
+
+## Next Step
+
+[Step 4 : Common Abstraction](0004_common_abstraction.livemd)
+
+## Previous Step
+
+[Step 2 : Failing Computations](0002_failing_computations.livemd)

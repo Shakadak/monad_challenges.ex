@@ -253,3 +253,11 @@ defmodule Tailprod do
   end
 end
 ```
+
+## Next Step
+
+[Step 3 : Combinations](0003_combinations.livemd)
+
+## Previous Step
+
+[Step 1 : Random Numbers](0001_random_numbers.livemd)
