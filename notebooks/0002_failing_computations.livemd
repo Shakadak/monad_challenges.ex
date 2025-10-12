@@ -290,6 +290,42 @@ defmodule Tailprod do
 end
 ```
 
+```elixir
+ExUnit.start(autorun: false)
+
+defmodule TailprodTest do
+  use ExUnit.Case, async: true
+
+  test "it works" do
+    import Maybe
+    import Tailprod
+
+    assert tailProd([]) == nothing()
+    assert tailProd([42]) == just(1)
+    assert tailProd([42, 43, 45]) == just(1 * 43 * 45)
+
+    assert tailSum([]) == nothing()
+    assert tailSum([42]) == just(0)
+    assert tailSum([42, 43, 45]) == just(0 + 43 + 45)
+  end
+
+  test "tailMax & tailMin & combine" do
+    import Maybe
+    import Tailprod
+
+    assert combine(tailMax([])) == nothing()
+    assert combine(tailMax([1])) == nothing()
+    assert combine(tailMax([1, 2, 3])) == just(3)
+
+    assert combine(tailMin([])) == nothing()
+    assert combine(tailMin([1])) == nothing()
+    assert combine(tailMin([1, 2, 3])) == just(2)
+  end
+end
+
+ExUnit.run()
+```
+
 ## Next Step
 
 [Step 3 : Combinations](0003_combinations.livemd)
