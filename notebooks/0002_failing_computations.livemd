@@ -5,7 +5,8 @@ app = :monad_challenges
 Mix.install(
   [
     {app, path: Path.join(__DIR__, ".."), env: :dev}
-  ]
+  ],
+  consolidate_protocols: false
 )
 ```
 
@@ -79,9 +80,38 @@ defmodule MaybeLib do
   @spec minimumMay([a]) :: Maybe.t(a)
     when a: var
   def minimumMay(_) do
+```
 
+```elixir
+ExUnit.start(autorun: false)
+
+defmodule MaybeLibTest do
+  use ExUnit.Case, async: true
+
+  test "it works" do
+    import Maybe
+
+    assert MaybeLib.headMay([1, 2, 3]) == just(1)
+    assert MaybeLib.headMay([]) == nothing()
+
+    assert MaybeLib.tailMay([1, 2, 3]) == just([2, 3])
+    assert MaybeLib.tailMay([]) == nothing()
+
+    assert MaybeLib.lookupMay("banana", []) == nothing()
+    assert MaybeLib.lookupMay("banana", [{"banana", "split"}]) == just("split")
+
+    assert MaybeLib.divMay(1, 0) == nothing()
+    assert MaybeLib.divMay(1, 2) == just(0.5)
+
+    assert MaybeLib.minimumMay([1, 2, 3]) == just(1)
+    assert MaybeLib.minimumMay([]) == nothing()
+
+    assert MaybeLib.maximumMay([1, 2, 3]) == just(3)
+    assert MaybeLib.maximumMay([]) == nothing()
   end
 end
+
+ExUnit.run()
 ```
 
 ## Chains of Failing Computations
@@ -114,11 +144,11 @@ defmodule CFCTest do
     assert queryGreek(greekDataA(), "delta") == nothing()
     assert queryGreek(greekDataA(), "zeta") == nothing()
 
-    assert queryGreek(greekDataA(), "rho") == nothing()
-    assert queryGreek(greekDataA(), "phi") == just(0.24528301886792453)
-    assert queryGreek(greekDataA(), "chi") == just(9.095238095238095)
-    assert queryGreek(greekDataA(), "psi") == nothing()
-    assert queryGreek(greekDataA(), "omega") == just(24.0)
+    assert queryGreek(greekDataB(), "rho") == nothing()
+    assert queryGreek(greekDataB(), "phi") == just(0.24528301886792453)
+    assert queryGreek(greekDataB(), "chi") == just(9.095238095238095)
+    assert queryGreek(greekDataB(), "psi") == nothing()
+    assert queryGreek(greekDataB(), "omega") == just(24.0)
   end
 end
 
@@ -193,10 +223,13 @@ defmodule CV do
     
   end
 
+  @spec addSalaries2([{binary, integer}], binary, binary) :: Maybe.t(integer)
+  def addSalaries2(_salaries, _first, _second) do
+  end
+
   @spec mkMaybe(a) :: Maybe.t(a)
     when a: var
   def mkMaybe(_) do
-    
   end
 end
 ```
@@ -214,6 +247,9 @@ defmodule CVTest do
 
     assert addSalaries(salaries(), "alice", "bob") == just(195000)
     assert addSalaries(salaries(), "carol", "dave") == nothing()
+
+    assert addSalaries2(salaries(), "alice", "bob") == just(195000)
+    assert addSalaries2(salaries(), "carol", "dave") == nothing()
   end
 end
 
