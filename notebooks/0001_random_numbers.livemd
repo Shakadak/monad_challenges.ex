@@ -9,6 +9,10 @@ Mix.install(
 )
 ```
 
+## Next Step
+
+[Set 2 : Failing Computations](0002_failing_computations.livemd)
+
 ## Random Number Generation
 
 https://mightybyte.github.io/monad-challenges/pages/ex1-1.html
@@ -119,7 +123,7 @@ end
 ExUnit.run()
 ```
 
-<!-- livebook:{"branch_parent_index":2} -->
+<!-- livebook:{"branch_parent_index":3} -->
 
 ## More Generators : Curried
 
@@ -222,7 +226,7 @@ defmodule GRP1_4 do
 end
 ```
 
-<!-- livebook:{"branch_parent_index":4} -->
+<!-- livebook:{"branch_parent_index":5} -->
 
 ## Generalizing Random Pairs : Curried
 
@@ -299,7 +303,7 @@ defmodule GPEM1_4 do
 end
 ```
 
-<!-- livebook:{"branch_parent_index":6} -->
+<!-- livebook:{"branch_parent_index":7} -->
 
 ## Generalizing Pairs Even More : Curried
 
@@ -355,7 +359,7 @@ end
 ExUnit.run()
 ```
 
-<!-- livebook:{"branch_parent_index":8} -->
+<!-- livebook:{"branch_parent_index":9} -->
 
 ## Generalizing Lists of Generators : Curried
 

@@ -9,6 +9,14 @@ Mix.install(
 )
 ```
 
+## Previous Step
+
+[Step 3 : Combinations](0003_combinations.livemd)
+
+## Next Step
+
+[Step 5 : Do Notation](0005_do_notation.livemd)
+
 ## Generalizing State and Maybe
 
 https://mightybyte.github.io/monad-challenges/pages/ex4-1.html
