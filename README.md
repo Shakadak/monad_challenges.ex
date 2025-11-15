@@ -11,5 +11,5 @@ mix escript.install hex livebook
 
 then start the livebook server with the given folder:
 ```
-livebook server notebook
+livebook server notebooks
 ```
